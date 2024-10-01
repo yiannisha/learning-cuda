@@ -34,24 +34,32 @@ void matMulKernel(
 
 int main()
 {
-    int length = 3;
+    int length = 7;
 
     // MxN
-    int A[12] = {
-        1, 2, 3,
-        4, 5, 6,
-        7, 8, 9,
-        10, 11, 12
+    unsigned int length_A = 42;
+    int A[length_A] = {
+        69, 37, 17, 53, 91, 31, 74,
+        40, 31, 75, 26, 30, 26, 29,
+        47, 70, 1, 47, 12, 27, 21,
+        17, 19, 56, 44, 53, 52, 40,
+        13, 60, 49, 27, 30, 100, 81,
+        98, 40, 51, 74, 94, 38, 38
     };
-    unsigned int M = 4;
+    unsigned int M = 6;
 
     // NxK
-    int B[6] = {
-        1, 2,
-        3, 4,
-        5, 6
+    unsigned int length_B = 21;
+    int B[length_B] = {
+        16,22,4,
+        82,12,66,
+        16,8,67,
+        51,88,47,
+        54,5,69,
+        68,9,83,
+        64,57,58
     };
-    unsigned int K = 2;
+    unsigned int K = 3;
 
     int *out_h, *out_d, *A_d, *B_d;
     unsigned int size = (M*K) * sizeof(int);
@@ -59,11 +67,11 @@ int main()
 
     cudaError_t err;
     if ((err = cudaMalloc((void**)&out_d, size)) != cudaSuccess) handle_err(err);
-    if ((err = cudaMalloc((void**)&A_d, 12*sizeof(int))) != cudaSuccess) handle_err(err);
-    if ((err = cudaMalloc((void**)&B_d, 6*sizeof(int))) != cudaSuccess) handle_err(err);
+    if ((err = cudaMalloc((void**)&A_d, length_A*sizeof(int))) != cudaSuccess) handle_err(err);
+    if ((err = cudaMalloc((void**)&B_d, length_B*sizeof(int))) != cudaSuccess) handle_err(err);
 
-    cudaMemcpy(A_d, A, 12*sizeof(int), cudaMemcpyHostToDevice);
-    cudaMemcpy(B_d, B, 6*sizeof(int), cudaMemcpyHostToDevice);
+    cudaMemcpy(A_d, A, length_A*sizeof(int), cudaMemcpyHostToDevice);
+    cudaMemcpy(B_d, B, length_B*sizeof(int), cudaMemcpyHostToDevice);
 
     // it is convenient to map 2D data to a 2D grid consisting of
     // 2D blocks
