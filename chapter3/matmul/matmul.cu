@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define THREAD_COUNT 1024
-
 // MxN * NxK matrix multiplication
 
 void handle_err(cudaError_t err) {
